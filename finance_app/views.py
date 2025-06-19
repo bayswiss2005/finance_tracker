@@ -2,7 +2,20 @@ from django.shortcuts import render, redirect
 from .forms import AccountForm, CategoryForm,TransactionForm
 from django.contrib.auth.decorators import login_required
 from  .models import Account, Category , Transaction
+from django.contrib.auth.forms import UserCreationForm
 from datetime import date
+
+
+
+def register(request): 
+    if request.method == 'POST': 
+        form = UserCreationForm(request.POST) 
+        if form.is_valid(): 
+            form.save() 
+            return redirect('login')
+    else: 
+        form = UserCreationForm() 
+    return render(request, 'finance_app/register.html', {'form': form})
 
 
 @login_required
